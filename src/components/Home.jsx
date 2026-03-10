@@ -1,7 +1,10 @@
   import { useState, useEffect } from 'react';
   import Navbar from './Navbar';
+  import usePageTitle from '../hooks/usePageTitle';
 
   const Home = () => {
+    usePageTitle(); // Use default title for home page
+    
     const scrollToSection = (sectionId) => {
       document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
     };
@@ -15,7 +18,7 @@
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-blue-500/10"></div>
           <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
             <div className="fade-in-up">
-              <h1 className="english-text text-5xl md:text-7xl font-bold text-gray-800 mb-4">
+              <h1 className="english-text text-5xl md:text-7xl mt-5 font-bold text-gray-800 mb-4">
                 A Thousand <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-500">Madleens</span>
               </h1>
               <h2 className="english-text text-2xl md:text-3xl font-semibold text-gray-700 mb-2">

@@ -1,6 +1,9 @@
 import Navbar from './Navbar';
+import usePageTitle from '../hooks/usePageTitle';
 
 const Gallery = () => {
+  usePageTitle('Gallery');
+  
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
