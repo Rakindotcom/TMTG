@@ -33,26 +33,20 @@
               </div>
 
               <h3 className="english-text text-3xl md:text-4xl font-bold text-gray-800 mb-6">
-                Join the Flotilla — Break the Siege
+                Join the Flotilla, Break the Siege
               </h3>
               
               <p className="bengali-text text-lg md:text-xl text-gray-700 max-w-4xl mx-auto mb-8 leading-relaxed">
                 এটি বাংলাদেশ ডেলিগেশনের জন্য অফিসিয়াল ফান্ডরেইজিং পেজ। আমাদের সাথে যুক্ত হোন এবং একটি শান্তিপূর্ণ বেসামরিক <span className="english-text">flotilla</span> উদ্যোগে অবদান রাখুন, যার লক্ষ্য গাজার অবৈধ অবরোধ ভেঙে সমুদ্রপথে জীবনরক্ষাকারী মানবিক সহায়তা পৌঁছে দেওয়া।
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <div className="flex justify-center items-center">
                 <a 
                   href="/donate"
                   className="english-text mb-10 float-animation bg-gradient-to-r from-blue-600 to-blue-500 text-white px-10 py-4 rounded-full font-bold text-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
                 >
                   Donate Now
                 </a>
-                <button 
-                  onClick={() => scrollToSection('about')}
-                  className="english-text mb-10 border-2 border-gray-300 text-gray-700 px-10 py-4 rounded-full font-semibold text-xl hover:border-blue-600 hover:text-blue-600 transition-all duration-300"
-                >
-                  Learn More
-                </button>
               </div>
             </div>
           </div>
