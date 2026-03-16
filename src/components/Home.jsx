@@ -369,16 +369,16 @@
             <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-2xl p-12 text-white text-center shadow-2xl">
               <h2 className="bengali-text text-3xl font-bold mb-4">সামগ্রিক লক্ষ্য</h2>
               <div className="mb-6">
-                <p className="english-text text-7xl font-bold mb-2">1,000</p>
-                <p className="english-text text-3xl font-semibold">Madleens</p>
+                <p className="bengali-text text-4xl font-bold mb-2">গাজার অবরোধ</p>
+                <p className="bengali-text text-3xl font-semibold">ভাঙা</p>
               </div>
               
               <div className="w-full h-64 bg-white/20 rounded-xl mb-6 flex items-center justify-center backdrop-blur-sm">
-                <span className="english-text text-white/70 text-lg">[1000 Madleens Vision Image]</span>
+                <span className="english-text text-white/70 text-lg">[Madleens Vision Image]</span>
               </div>
               
               <p className="bengali-text text-xl leading-relaxed max-w-4xl mx-auto">
-                ১,০০০টি জাহাজের সমর্থন সংগ্রহ করে গাজার অবরোধ ভাঙার একটি বৃহৎ আন্তর্জাতিক প্রচেষ্টা
+                বিশ্বব্যাপী জাহাজের সমর্থন সংগ্রহ করে গাজার অবরোধ ভাঙার একটি বৃহৎ আন্তর্জাতিক প্রচেষ্টা
               </p>
             </div>
           </div>
