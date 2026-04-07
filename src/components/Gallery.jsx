@@ -21,28 +21,48 @@ const Gallery = () => {
 
           {/* Image Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(12)].map((_, index) => (
+            {/* Gallery Images 1-10 */}
+            {[...Array(10)].map((_, index) => (
               <div 
                 key={index}
-                className="group relative aspect-square bg-gray-200 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                className="group relative aspect-square rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
               >
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <svg className="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <span className="english-text text-gray-500 text-lg font-medium">
-                    Image {index + 1}
-                  </span>
-                  <span className="english-text text-gray-400 text-sm mt-2">
-                    [Placeholder]
-                  </span>
-                </div>
+                <img 
+                  src={`/gallery-${index + 1}.jpg`} 
+                  alt={`Gallery Image ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
                 
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                   <div className="p-6 w-full">
                     <p className="english-text text-white font-semibold text-lg">Gallery Image {index + 1}</p>
                     <p className="bengali-text text-white/90 text-sm">ছবি {index + 1}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            {/* Additional Images */}
+            {[
+              { src: '/hero-image.jpg', title: 'Mission Hero' },
+              { src: '/first-wave-image.jpg', title: 'First Wave' }
+            ].map((img, index) => (
+              <div 
+                key={`extra-${index}`}
+                className="group relative aspect-square rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+              >
+                <img 
+                  src={img.src} 
+                  alt={img.title}
+                  className="w-full h-full object-cover"
+                />
+                
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-600/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                  <div className="p-6 w-full">
+                    <p className="english-text text-white font-semibold text-lg">{img.title}</p>
+                    <p className="bengali-text text-white/90 text-sm">ছবি {index + 11}</p>
                   </div>
                 </div>
               </div>
@@ -68,8 +88,8 @@ const Gallery = () => {
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="flex items-center justify-center space-x-3 mb-6">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-xl">M</span>
+            <div className="w-12 h-12 rounded-full overflow-hidden">
+              <img src="/logo.jpg" alt="TMTG Logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <h3 className="english-text text-xl font-bold">A Thousand Madleens To Gaza</h3>

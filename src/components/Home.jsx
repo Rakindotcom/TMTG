@@ -28,8 +28,8 @@
                 বাংলাদেশ ডেলিগেশন
               </p>
               
-              <div className="w-full h-80 bg-gray-200 rounded-2xl mb-8 flex items-center justify-center shadow-xl">
-                <span className="english-text text-gray-500 text-xl">[Hero Image Placeholder]</span>
+              <div className="w-full h-80 rounded-2xl mb-8 overflow-hidden shadow-xl">
+                <img src="/hero-image.jpg" alt="A Thousand Madleens to Gaza" className="w-full h-full object-cover" />
               </div>
 
               <h3 className="english-text text-3xl md:text-4xl font-bold text-gray-800 mb-6">
@@ -61,8 +61,8 @@
 
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
-                <div className="w-full h-80 bg-gray-200 rounded-2xl mb-6 flex items-center justify-center shadow-lg">
-                  <span className="english-text text-gray-500 text-lg">[Organization Image Placeholder]</span>
+                <div className="w-full h-80 rounded-2xl mb-6 overflow-hidden shadow-lg">
+                  <img src="/organization-image.jpg" alt="Freedom Flotilla Coalition" className="w-full h-full object-cover" />
                 </div>
               </div>
               
@@ -105,8 +105,8 @@
             <div className="mb-20">
               <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-8 mb-12">
                 <h3 className="english-text text-3xl font-bold text-gray-800 mb-4 text-center">The First Wave</h3>
-                <div className="w-full h-64 bg-gray-200 rounded-xl mb-6 flex items-center justify-center">
-                  <span className="english-text text-gray-500 text-lg">[First Wave Image Placeholder]</span>
+                <div className="w-full h-64 rounded-xl mb-6 overflow-hidden">
+                  <img src="/first-wave-image.jpg" alt="The First Wave Flotilla" className="w-full h-full object-cover" />
                 </div>
                 
                 <div className="grid md:grid-cols-2 gap-8">
@@ -143,8 +143,8 @@
               
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                  <div className="w-full h-80 bg-gray-200 rounded-2xl mb-6 flex items-center justify-center shadow-lg">
-                    <span className="english-text text-gray-500 text-lg">[Shahidul Alam Image Placeholder]</span>
+                  <div className="w-full h-80 rounded-2xl mb-6 overflow-hidden shadow-lg">
+                    <img src="/shahidul-alam-image.jpg" alt="Shahidul Alam" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 
@@ -173,8 +173,8 @@
               
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div>
-                  <div className="w-full h-64 bg-white/20 rounded-xl mb-6 flex items-center justify-center">
-                    <span className="english-text text-white/70 text-lg">[Ship Preparation Image Placeholder]</span>
+                  <div className="w-full h-64 rounded-xl mb-6 overflow-hidden">
+                    <img src="/ship-preparation-image.jpg" alt="Ship Preparation" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 
@@ -289,8 +289,8 @@
                 </div>
                 <h3 className="english-text text-2xl font-bold text-blue-800 mb-4 text-center">Boat & Equipment</h3>
                 
-                <div className="w-full h-48 bg-white rounded-xl mb-4 flex items-center justify-center shadow-md">
-                  <span className="english-text text-gray-400 text-sm">[Boat Equipment Image]</span>
+                <div className="w-full h-48 rounded-xl mb-4 overflow-hidden shadow-md">
+                  <img src="/boat-equipment-image.jpg" alt="Boat Equipment" className="w-full h-full object-cover" />
                 </div>
                 
                 <div className="space-y-4">
@@ -324,8 +324,8 @@
                 </div>
                 <h3 className="english-text text-2xl font-bold text-blue-800 mb-4 text-center">Humanitarian Aid</h3>
                 
-                <div className="w-full h-48 bg-white rounded-xl mb-4 flex items-center justify-center shadow-md">
-                  <span className="english-text text-gray-400 text-sm">[Medical Aid Image]</span>
+                <div className="w-full h-48 rounded-xl mb-4 overflow-hidden shadow-md">
+                  <img src="/medical-aid-image.jpg" alt="Medical Aid" className="w-full h-full object-cover" />
                 </div>
                 
                 <ul className="bengali-text text-sm text-gray-700 space-y-2">
@@ -345,8 +345,8 @@
                 </div>
                 <h3 className="english-text text-2xl font-bold text-blue-800 mb-4 text-center">Organizing the Flotilla</h3>
                 
-                <div className="w-full h-48 bg-white rounded-xl mb-4 flex items-center justify-center shadow-md">
-                  <span className="english-text text-gray-400 text-sm">[Organization Image]</span>
+                <div className="w-full h-48 rounded-xl mb-4 overflow-hidden shadow-md">
+                  <img src="/organization-budget-image.jpg" alt="Organization" className="w-full h-full object-cover" />
                 </div>
                 
                 <ul className="bengali-text text-sm text-gray-700 space-y-2">
@@ -369,12 +369,11 @@
             <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-2xl p-12 text-white text-center shadow-2xl">
               <h2 className="bengali-text text-3xl font-bold mb-4">সামগ্রিক লক্ষ্য</h2>
               <div className="mb-6">
-                <p className="bengali-text text-4xl font-bold mb-2">গাজার অবরোধ</p>
-                <p className="bengali-text text-3xl font-semibold">ভাঙা</p>
+                <p className="bengali-text text-4xl font-bold mb-2">গাজার অবরোধ ভাঙা</p>
               </div>
               
-              <div className="w-full h-64 bg-white/20 rounded-xl mb-6 flex items-center justify-center backdrop-blur-sm">
-                <span className="english-text text-white/70 text-lg">[Madleens Vision Image]</span>
+              <div className="w-full rounded-xl mb-6 overflow-hidden backdrop-blur-sm">
+                <img src="/madleens-vision-image.jpg" alt="Madleens Vision" className="w-full h-auto object-cover" />
               </div>
               
               <p className="bengali-text text-xl leading-relaxed max-w-4xl mx-auto">
@@ -439,12 +438,12 @@
         {/* Footer */}
         <footer className="bg-gray-900 text-white py-16">
           <div className="max-w-6xl mx-auto px-4">
-            <div className="grid md:grid-cols-4 gap-8 mb-12">
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
               {/* Logo & Description */}
               <div className="md:col-span-2">
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-xl">M</span>
+                  <div className="w-12 h-12 rounded-full overflow-hidden">
+                    <img src="/logo.jpg" alt="TMTG Logo" className="w-full h-full object-cover" />
                   </div>
                   <div>
                     <h3 className="english-text text-xl font-bold">A Thousand Madleens To Gaza</h3>
@@ -469,32 +468,6 @@
                   <li><a href="/gallery" className="english-text text-gray-300 hover:text-white transition-colors">Gallery</a></li>
                   <li><a href="/donate" className="english-text text-gray-300 hover:text-white transition-colors">Donate</a></li>
                 </ul>
-              </div>
-
-              {/* Contact */}
-              <div>
-                <h4 className="english-text text-lg font-semibold mb-4">Contact</h4>
-                <div className="space-y-2 text-gray-300">
-                  <p className="english-text">Email: info@madleenstogaza.org</p>
-                  <p className="english-text">Phone: +880-XXX-XXXX</p>
-                  <div className="flex space-x-4 mt-4">
-                    <a href="#" className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
-                      <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                      </svg>
-                    </a>
-                    <a href="#" className="w-8 h-8 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors">
-                      <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                      </svg>
-                    </a>
-                    <a href="#" className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
-                      <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                      </svg>
-                    </a>
-                  </div>
-                </div>
               </div>
             </div>
 

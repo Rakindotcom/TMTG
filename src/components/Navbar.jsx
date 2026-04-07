@@ -42,8 +42,8 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <button onClick={scrollToTop} className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-lg">M</span>
+            <div className="w-10 h-10 rounded-full overflow-hidden">
+              <img src="/logo.jpg" alt="TMTG Logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <h1 className="english-text font-bold text-lg text-gray-800">Madleens to Gaza</h1>
