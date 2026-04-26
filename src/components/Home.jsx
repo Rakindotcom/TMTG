@@ -28,8 +28,8 @@
                 বাংলাদেশ ডেলিগেশন
               </p>
               
-              <div className="w-full h-80 rounded-2xl mb-8 overflow-hidden shadow-xl">
-                <img src="/hero-image.jpg" alt="A Thousand Madleens to Gaza" className="w-full h-full object-cover" />
+              <div className="w-full md:h-80 rounded-2xl mb-8 overflow-hidden shadow-xl bg-gray-100">
+                <img src="/hero-image.jpg" alt="A Thousand Madleens to Gaza" className="w-full h-auto md:h-full object-contain md:object-cover" />
               </div>
 
               <h3 className="english-text text-3xl md:text-4xl font-bold text-gray-800 mb-6">
@@ -37,7 +37,7 @@
               </h3>
               
               <p className="bengali-text text-lg md:text-xl text-gray-700 max-w-4xl mx-auto mb-8 leading-relaxed">
-                এটি বাংলাদেশ ডেলিগেশনের জন্য অফিসিয়াল ফান্ডরেইজিং পেজ। আমাদের সাথে যুক্ত হোন এবং একটি শান্তিপূর্ণ বেসামরিক <span className="english-text">flotilla</span> উদ্যোগে অবদান রাখুন, যার লক্ষ্য গাজার অবৈধ অবরোধ ভেঙে সমুদ্রপথে জীবনরক্ষাকারী মানবিক সহায়তা পৌঁছে দেওয়া।
+                গাজার অবৈধ অবরোধ ভাঙতে এবং অসহায় মানুষের কাছে জীবনরক্ষাকারী মানবিক সহায়তা পৌঁছে দিতে সমুদ্রপথে ছুটে যাচ্ছে আমাদের বেসামরিক ফ্লোটিলা। 'বাংলাদেশ ডেলিগেশন'-এর এই সাহসী ও শান্তিপূর্ণ উদ্যোগে আপনার আর্থিক সহায়তা একান্ত প্রয়োজন। আজই অনুদান দিন এবং গাজার মানুষের বেঁচে থাকার এই লড়াইয়ে আমাদের সঙ্গী হোন।
               </p>
 
               <div className="flex justify-center items-center">
