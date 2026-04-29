@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import SocialLinks from './SocialLinks';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,15 +14,6 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const scrollToSection = (sectionId) => {
-    if (location.pathname === '/') {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.location.href = `/#${sectionId}`;
-    }
-    setIsMenuOpen(false);
-  };
 
   const scrollToTop = () => {
     if (location.pathname === '/') {
@@ -81,6 +73,8 @@ const Navbar = () => {
             >
               Donate Now
             </a>
+
+            <SocialLinks className="pl-1" iconClassName="h-6 w-6" />
           </div>
 
           {/* Mobile Menu Button */}
@@ -133,6 +127,8 @@ const Navbar = () => {
                   <span>Donate Now</span>
                 </div>
               </a>
+
+              <SocialLinks className="justify-center pt-2" />
             </div>
           </div>
         </div>

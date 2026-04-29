@@ -1,5 +1,5 @@
-  import { useState, useEffect } from 'react';
   import Navbar from './Navbar';
+  import SocialLinks from './SocialLinks';
   import usePageTitle from '../hooks/usePageTitle';
 
   const Home = () => {
@@ -109,30 +109,36 @@
                   <img src="/first-wave-image.jpg" alt="The First Wave Flotilla" className="w-full h-full object-cover" />
                 </div>
                 
-                <div className="grid md:grid-cols-2 gap-8">
+                <div className="space-y-8">
                   <div>
                     <p className="bengali-text text-gray-700 mb-4 leading-relaxed">
-                      যখন শুধু কথার মাধ্যমে ইসরায়েল এবং তাদের মিত্রদের অবস্থান পরিবর্তন করা সম্ভব হয় না, তখন আরও কার্যকর পদক্ষেপ প্রয়োজন হয়।
-                    </p>
-                    <p className="bengali-text text-gray-700 mb-4 leading-relaxed">
-                      ২০২৫ সালে বিশ্বের বিভিন্ন প্রান্তের স্বেচ্ছাসেবকদের নিয়ে একটি বড় <span className="english-text">flotilla coalition</span> গঠন করা হয়।
+                      প্রতিবার যখন কোনো দেশের কোনোখানে আটকে পড়ে, আর আইনের শাসনে যায় না, তখন প্রয়োজন হয় সরাসরি পথে নামার। সেই অন্যায় ভাঙতে থেকেই ২০২৫ সালে পৃথিবীর নানা প্রান্ত থেকে ছুটে আসা অসংখ্য স্বেচ্ছাসেবকেরা নিয়ে গড়ে ওঠে এক ঐতিহাসিক ‘ফ্লোটিলা কোয়ালিশন’ (<span className="english-text">flotilla coalition</span>)।
                     </p>
                   </div>
-                  
+
                   <div className="bg-white rounded-xl p-6 shadow-md">
-                    <h4 className="bengali-text text-lg font-semibold text-gray-800 mb-3">এই <span className="english-text">flotilla</span>:</h4>
-                    <ul className="bengali-text space-y-2 text-gray-700">
-                      <li>• ইসরায়েলি সামরিক বাহিনী দ্বারা আটক করা হয়</li>
-                      <li>• অংশগ্রহণকারীদের আটক করা হয়</li>
-                      <li>• তাদের একটি উচ্চ নিরাপত্তা সম্পন্ন ইসরায়েলি কারাগারে নিয়ে যাওয়া হয়</li>
+                    <h4 className="bengali-text text-lg font-semibold text-gray-800 mb-4">আমাদের এই শান্তির যাত্রাবাহী নৌবহরের ওপর নেমে আসে চরম আঘাত:</h4>
+                    <ul className="bengali-text space-y-4 text-gray-700">
+                      <li className="flex items-start">
+                        <span className="w-2 h-2 bg-blue-600 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                        <span>মাঝসমুদ্রে ইসরায়েলি সামরিক বাহিনী জোরপূর্বক আমাদের পথ আগলে দাঁড়ায়।</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="w-2 h-2 bg-blue-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                        <span>মানবতার টানে ছুটে আসা স্বেচ্ছাসেবকদের হাতে পরানো হয় বন্দিত্বের শৃঙ্খল।</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="w-2 h-2 bg-blue-600 rounded-full mt-3 mr-3 flex-shrink-0"></span>
+                        <span>তাদের তুলে ফেলা হয় ইসরায়েলের অন্ধকার, দুর্ভেদ্য এক উচ্চ-নিরাপত্তা কারাগারে।</span>
+                      </li>
                     </ul>
                   </div>
-                </div>
-                
-                <div className="mt-8 bg-white rounded-xl p-6 shadow-md">
-                  <p className="bengali-text text-gray-700 leading-relaxed">
-                    তবুও এই সম্মিলিত উদ্যোগ বিশ্বজুড়ে ব্যাপক সংহতি সৃষ্টি করে এবং একটি বাস্তব প্রভাব ফেলে। এটি বিশ্বজুড়ে মানুষকে অনুপ্রাণিত করে এবং আশা জাগায়। গাজার মানুষও বুঝতে পারে যে তারা ভুলে যাওয়া হয়নি।
-                  </p>
+
+                  <div className="bg-white rounded-xl p-6 shadow-md">
+                    <p className="bengali-text text-gray-700 leading-relaxed">
+                      কিন্তু তারা জানত না, শিকল দিয়ে কখনো মুক্তিকামী আত্মাকে বেঁধে রাখা যায় না! আমাদের এই আত্মত্যাগ বিশ্বজুড়ে এক অভূতপূর্ব সংহতির জন্ম দেয় এবং প্রতিবাদের নতুন দাবানল জ্বেলে দেয়। এই উদ্যোগ পৃথিবীর নানা প্রান্তের মানুষকে অনুপ্রাণিত করে মুক্ত নতুন আশার বীজ বুনে দেয়।
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -178,19 +184,19 @@
                   </div>
                 </div>
                 
-                <div className="space-y-6">
-                  <p className="bengali-text text-lg leading-relaxed">
-                    এখন আমরা আরও বড় একটি <span className="english-text">flotilla</span> প্রস্তুত করছি। এইবার <span className="english-text">flotilla</span>-তে একটি <strong>বিশেষ বাংলাদেশি জাহাজ</strong> অন্তর্ভুক্ত করার পরিকল্পনা রয়েছে।
-                  </p>
-                  
-                  <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
-                    <h4 className="bengali-text text-lg font-semibold mb-3">এর অর্থ হলো:</h4>
-                    <ul className="bengali-text space-y-2">
-                      <li>• একটি জাহাজ সংগ্রহ করা</li>
-                      <li>• সেটিকে প্রয়োজনীয়ভাবে সজ্জিত করা</li>
-                      <li>• ইউরোপের একটি বন্দর থেকে যাত্রা শুরু করা</li>
-                    </ul>
-                  </div>
+	                <div className="space-y-6">
+	                  <p className="bengali-text text-lg leading-relaxed">
+	                    আমাদের সংগ্রাম থামেনি, বরং এবারের প্রস্তুতি আরও বিশাল! অবরুদ্ধ গাজার দিকে যাত্রা করার জন্য আমরা এবার আরও বড় পরিসরে একটি ফ্লোটিলা প্রস্তুত করছি। আর এবারের সবচেয়ে গর্বের বিষয় হলো- এই আন্তর্জাতিক নৌবহরে যুক্ত হতে যাচ্ছে বাংলাদেশের লাল-সবুজ পতাকাবাহী সম্পূর্ণ নিজস্ব একটি জাহাজ / বোট।
+	                  </p>
+	                  
+	                  <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
+	                    <h4 className="bengali-text text-lg font-semibold mb-3">এই মুহূর্তে বাস্তবায়নে আমাদের লক্ষ্য:</h4>
+	                    <ul className="bengali-text space-y-3">
+	                      <li>• নিজস্ব উদ্যোগে একটি উপযুক্ত জাহাজ / বোট সংগ্রহ করা।</li>
+	                      <li>• গাজার মানুষের জন্য প্রয়োজনীয় জীবনরক্ষাকারী সামগ্রী দিয়ে সেটিকে পূর্ণাঙ্গভাবে প্রস্তুত করা।</li>
+	                      <li>• ইউরোপের কোনো এক বন্দর থেকে নোঙর তুলে সরাসরি গাজার উদ্দেশ্যে উত্তাল সমুদ্র পাড়ি দেওয়া।</li>
+	                    </ul>
+	                  </div>
                   
                   <div className="bg-yellow-400/20 rounded-xl p-4">
                     <p className="english-text font-semibold text-yellow-100">Launch Timeline: <span className="english-text">Spring 2026</span></p>
@@ -243,29 +249,23 @@
             </div>
 
             <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <h4 className="bengali-text text-2xl font-semibold text-gray-800 mb-6">আমাদের লক্ষ্য:</h4>
-              <div className="grid md:grid-cols-2 gap-6">
+              <h4 className="bengali-text text-2xl font-semibold text-gray-800 mb-6">আমাদের মূখ্য লক্ষ্য:</h4>
+              <div>
                 <ul className="bengali-text space-y-4 text-gray-700">
                   <li className="flex items-start">
                     <span className="w-2 h-2 bg-blue-600 rounded-full mt-3 mr-3 flex-shrink-0"></span>
-                    <span>ফিলিস্তিনি ভূখণ্ডের দখলের বিরুদ্ধে প্রতিবাদ অব্যাহত রাখা</span>
+                    <span>ফিলিস্তিনের পবিত্র ভূমিতে চলা অবৈধ দখলদারিত্ব ও আগ্রাসনের বিরুদ্ধে আমাদের প্রতিবাদী কণ্ঠস্বর আরও শানিত করা।</span>
                   </li>
                   <li className="flex items-start">
                     <span className="w-2 h-2 bg-blue-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
-                    <span>বিশ্ব সরকারের ওপর চাপ বৃদ্ধি করা</span>
-                  </li>
-                </ul>
-                <ul className="bengali-text space-y-4 text-gray-700">
-                  <li className="flex items-start">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
-                    <span>যেন তারা দ্রুত পদক্ষেপ নেয়</span>
+                    <span>নীরব থাকা আন্তর্জাতিক সম্প্রদায় ও বিশ্বনেতৃবৃন্দের ওপর এমন প্রবল চাপ সৃষ্টি করা, যেন তারা অবিলম্বে এই অমানবিকতা বন্ধে বাধ্য হয়।</span>
                   </li>
                 </ul>
               </div>
               
               <div className="mt-8 bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6 text-center">
                 <p className="bengali-text text-xl font-bold text-gray-800">
-                  চলুন বিশ্বকে দেখাই যে বাংলাদেশের মানুষ ইতিহাসের সঠিক পাশে দাঁড়িয়েছে।
+                  আসুন, গোটা বিশ্বকে দেখিয়ে দিই- চরম এই অবিচারের দিনে বাংলাদেশের মানুষ চুপ নেই; আমরা দাঁড়িয়ে ন্যায়ের পক্ষে, ইতিহাসের একেবারে সঠিক অধ্যায়ে!
                 </p>
               </div>
             </div>
@@ -456,6 +456,11 @@
                 <p className="bengali-text text-gray-300 leading-relaxed">
                   গাজার অবৈধ অবরোধ ভেঙে সমুদ্রপথে জীবনরক্ষাকারী মানবিক সহায়তা পৌঁছে দেওয়ার শান্তিপূর্ণ বেসামরিক <span className="english-text">flotilla</span> উদ্যোগে যোগ দিন।
                 </p>
+                <SocialLinks
+                  className="mt-6"
+                  linkClassName="text-gray-300 hover:text-white focus:ring-offset-gray-900"
+                  iconClassName="h-8 w-8"
+                />
               </div>
 
               {/* Quick Links */}
