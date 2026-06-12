@@ -480,6 +480,26 @@
               <p className="english-text text-gray-400 mb-2">
                 © 2026 Bangladesh Delegation - A Thousand Madleens To Gaza
               </p>
+              <p className="english-text text-gray-500 text-sm mb-2">
+                Developed by{' '}
+                <a
+                  href="https://www.linkedin.com/in/rakinalshahriar/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Rakin al Shahriar
+                </a>{' '}
+                from{' '}
+                <a
+                  href="https://framecipher.info"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  FrameCipher
+                </a>
+              </p>
               <p className="bengali-text text-gray-500 text-sm">
                 <span className="english-text">Freedom Flotilla Coalition</span> | <span className="english-text">Thousand Madleens to Gaza</span> | <span className="english-text">Bangladesh Delegation Crowdfund</span>
               </p>
