@@ -1,135 +1,167 @@
-import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SocialLinks from './SocialLinks';
+
+const navItems = [
+  { label: 'মিশন', section: 'mission' },
+  { label: 'তহবিল', section: 'budget' },
+  { label: 'গ্যালারি', path: '/gallery' },
+];
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const useDarkHeroStyle = !scrolled && location.pathname !== '/donate';
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 24);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToTop = () => {
+  const goHome = () => {
+    setIsMenuOpen(false);
     if (location.pathname === '/') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      window.location.href = '/';
+      return;
     }
-    setIsMenuOpen(false);
+    navigate('/');
   };
 
-  const isActive = (path) => location.pathname === path;
+  const goToSection = (sectionId) => {
+    setIsMenuOpen(false);
+    if (location.pathname !== '/') {
+      navigate('/');
+      window.setTimeout(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+      }, 80);
+      return;
+    }
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${
-      scrolled ? 'bg-white shadow-lg py-2' : 'bg-transparent py-4'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center">
-          {/* Logo */}
-          <button onClick={scrollToTop} className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-            <div className="w-10 h-10 rounded-full overflow-hidden">
-              <img src="/logo.jpg" alt="TMTG Logo" className="w-full h-full object-cover" />
-            </div>
-            <div>
-              <h1 className="english-text font-bold text-lg text-gray-800">Madleens to Gaza</h1>
-              <p className="bengali-text text-sm text-gray-600">বাংলাদেশ ডেলিগেশন</p>
-            </div>
+    <nav
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
+        scrolled ? 'py-3' : 'py-5'
+      }`}
+      aria-label="Main navigation"
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div
+          className={`flex items-center justify-between border px-4 py-3 backdrop-blur-xl transition-all duration-300 ${
+            !useDarkHeroStyle
+              ? 'border-stone-200/80 bg-white/90 shadow-xl shadow-stone-950/10'
+              : 'border-white/20 bg-stone-950/20 text-white'
+          }`}
+        >
+          <button type="button" onClick={goHome} className="group flex min-w-0 items-center gap-3 text-left">
+            <img
+              src="/logo.jpg"
+              alt="TMTG Logo"
+              className="h-11 w-11 shrink-0 rounded-full object-cover ring-2 ring-emerald-400/60"
+            />
+            <span className="min-w-0">
+              <span className={`english-text block truncate text-sm font-black uppercase tracking-[0.18em] ${useDarkHeroStyle ? 'text-white' : 'text-stone-950'}`}>
+                TMTG
+              </span>
+              <span className={`bengali-text block truncate text-sm font-semibold ${useDarkHeroStyle ? 'text-stone-200' : 'text-stone-500'}`}>
+                বাংলাদেশ ডেলিগেশন
+              </span>
+            </span>
           </button>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            <button
-              onClick={scrollToTop}
-              className={`english-text transition-colors font-medium ${
-                isActive('/') ? 'text-blue-600 font-semibold' : 'text-gray-700 hover:text-blue-600'
-              }`}
-            >
-              Home
-            </button>
-
-            <a
-              href="/gallery"
-              className={`english-text transition-colors font-medium ${
-                isActive('/gallery') ? 'text-blue-600 font-semibold' : 'text-gray-700 hover:text-blue-600'
-              }`}
-            >
-              Gallery
-            </a>
-
-            <a
-              href="/donate"
-              className={`english-text transition-all duration-300 transform hover:scale-105 ${
-                isActive('/donate')
-                  ? 'text-blue-600 font-semibold'
-                  : 'bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-2 rounded-full font-semibold hover:shadow-lg'
-              }`}
-            >
-              Donate Now
-            </a>
-
-            <SocialLinks className="pl-1" iconClassName="h-6 w-6" />
+          <div className="hidden items-center gap-1 md:flex">
+            {navItems.map((item) =>
+              item.path ? (
+                <Link
+                  key={item.label}
+                  to={item.path}
+                  className={`bengali-text px-4 py-2 text-base font-bold transition hover:text-emerald-500 ${
+                    location.pathname === item.path ? 'text-emerald-500' : useDarkHeroStyle ? 'text-white' : 'text-stone-700'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={() => goToSection(item.section)}
+                  className={`bengali-text px-4 py-2 text-base font-bold transition hover:text-emerald-500 ${
+                    useDarkHeroStyle ? 'text-white' : 'text-stone-700'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ),
+            )}
           </div>
 
-          {/* Mobile Menu Button */}
+          <div className="hidden items-center gap-5 md:flex">
+            <SocialLinks
+              className="gap-3"
+              iconClassName="h-5 w-5"
+              linkClassName={useDarkHeroStyle ? 'text-white/80 hover:text-emerald-200 focus:ring-offset-stone-950' : 'text-stone-600 hover:text-emerald-600'}
+            />
+            <Link
+              to="/donate"
+              className="bengali-text inline-flex items-center gap-2 bg-emerald-400 px-4 py-3 text-base font-black text-stone-950 transition hover:-translate-y-0.5 hover:bg-emerald-300"
+            >
+              অনুদান
+            </Link>
+          </div>
+
           <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2"
+            type="button"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            className={`inline-flex h-11 w-11 items-center justify-center border md:hidden ${
+              useDarkHeroStyle ? 'border-white/25 text-white' : 'border-stone-300 text-stone-950'
+            }`}
+            aria-expanded={isMenuOpen}
+            aria-label="Toggle navigation menu"
           >
-            <div className="w-6 h-6 flex flex-col justify-center items-center">
-              <span className={`bg-gray-800 block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${
-                isMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'
-              }`}></span>
-              <span className={`bg-gray-800 block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5 ${
-                isMenuOpen ? 'opacity-0' : 'opacity-100'
-              }`}></span>
-              <span className={`bg-gray-800 block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${
-                isMenuOpen ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'
-              }`}></span>
-            </div>
+            <span className="relative h-4 w-5">
+              <span className={`absolute left-0 top-0 h-0.5 w-5 bg-current transition ${isMenuOpen ? 'translate-y-2 rotate-45' : ''}`} />
+              <span className={`absolute left-0 top-2 h-0.5 w-5 bg-current transition ${isMenuOpen ? 'opacity-0' : ''}`} />
+              <span className={`absolute left-0 top-4 h-0.5 w-5 bg-current transition ${isMenuOpen ? '-translate-y-2 -rotate-45' : ''}`} />
+            </span>
           </button>
         </div>
 
-        {/* Mobile Menu */}
-        <div className={`md:hidden transition-all duration-300 ease-in-out ${
-          isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-        } overflow-hidden`}>
-          <div className="py-4 bg-white rounded-2xl shadow-2xl mt-4 mx-2 border border-gray-100">
-            <div className="px-6 space-y-3">
-              <button
-                onClick={scrollToTop}
-                className="english-text flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group w-full text-left"
-              >
-                <span className="font-medium group-hover:text-blue-600 transition-colors">Home</span>
-              </button>
-
-              <a
-                href="/gallery"
-                className="english-text flex items-center p-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group"
-              >
-                <span className="font-medium group-hover:text-blue-600 transition-colors">Gallery</span>
-              </a>
-
-              <a
-                href="/donate"
-                className="english-text block bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-3 rounded-xl font-semibold text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-              >
-                <div className="flex items-center justify-center space-x-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                  </svg>
-                  <span>Donate Now</span>
-                </div>
-              </a>
-
-              <SocialLinks className="justify-center pt-2" />
-            </div>
+        <div className={`overflow-hidden transition-all duration-300 md:hidden ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+          <div className="border border-stone-200 bg-white p-3 shadow-2xl">
+            {navItems.map((item) =>
+              item.path ? (
+                <Link
+                  key={item.label}
+                  to={item.path}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="bengali-text block px-4 py-3 text-lg font-black text-stone-800"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={() => goToSection(item.section)}
+                  className="bengali-text block w-full px-4 py-3 text-left text-lg font-black text-stone-800"
+                >
+                  {item.label}
+                </button>
+              ),
+            )}
+            <Link
+              to="/donate"
+              onClick={() => setIsMenuOpen(false)}
+              className="bengali-text mt-2 flex items-center justify-center gap-2 bg-stone-950 px-4 py-4 text-lg font-black text-white"
+            >
+              অনুদান দিন
+            </Link>
           </div>
         </div>
       </div>

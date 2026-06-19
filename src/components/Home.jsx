@@ -1,513 +1,451 @@
-  import Navbar from './Navbar';
-  import SocialLinks from './SocialLinks';
-  import usePageTitle from '../hooks/usePageTitle';
+import { useEffect, useMemo, useState } from 'react';
+import Navbar from './Navbar';
+import SocialLinks from './SocialLinks';
+import usePageTitle from '../hooks/usePageTitle';
 
-  const Home = () => {
-    usePageTitle(); // Use default title for home page
-    
-    const scrollToSection = (sectionId) => {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+const missionCards = [
+  {
+    id: 'solidarity',
+    kicker: 'বেসামরিক মিশন',
+    title: 'মানবিক সহায়তার স্পষ্ট লক্ষ্য নিয়ে শান্তিপূর্ণ ফ্লোটিলা',
+    copy: 'গাজার অবরোধ ভাঙতে এবং সমুদ্রপথে জীবনরক্ষাকারী সহায়তা পৌঁছে দিতে বাংলাদেশ ডেলিগেশন একটি বৈশ্বিক বেসামরিক প্রচেষ্টায় যুক্ত হচ্ছে।',
+    image: '/organization-image.jpg',
+  },
+  {
+    id: 'bangladesh',
+    kicker: 'বাংলাদেশ ডেলিগেশন',
+    title: 'আন্তর্জাতিক আন্দোলনে বাংলাদেশের দৃশ্যমান অংশগ্রহণ',
+    copy: 'সমর্থক, স্বেচ্ছাসেবক, সংগঠক ও দাতাদের একত্র করে এই প্রচারণা বৃহত্তর ফ্লোটিলা কোয়ালিশনে বাংলাদেশের মর্যাদাপূর্ণ অবস্থান তৈরি করছে।',
+    image: '/shahidul-alam-image.jpg',
+  },
+  {
+    id: 'readiness',
+    kicker: 'অপারেশন প্রস্তুতি',
+    title: 'সমুদ্রযাত্রাকে বাস্তব করতে প্রয়োজনীয় কাজগুলোর তহবিল',
+    copy: 'আপনার সহায়তা নৌযান প্রস্তুতি, নিরাপত্তা সরঞ্জাম, লজিস্টিকস, ক্রু সমন্বয়, ডকুমেন্টেশন এবং মানবিক সহায়তা প্রস্তুত করতে কাজে লাগে।',
+    image: '/ship-preparation-image.jpg',
+  },
+];
+
+const timeline = [
+  {
+    label: 'প্রথম তরঙ্গ',
+    title: 'একই নৈতিক অবস্থানে দাঁড়িয়েছেন বিশ্বের স্বেচ্ছাসেবকেরা',
+    copy: 'প্রথম ফ্লোটিলা তরঙ্গ অবরোধের বিরুদ্ধে নাগরিক-নেতৃত্বাধীন দৃশ্যমান অবস্থান তৈরি করে এবং বিষয়টিকে আবার জনআলোচনায় নিয়ে আসে।',
+    image: '/first-wave-image.jpg',
+  },
+  {
+    label: 'বাংলাদেশ এগিয়ে আসে',
+    title: 'মানুষ, সম্পদ ও আস্থা নিয়ে সংগঠিত হচ্ছে ডেলিগেশন',
+    copy: 'আরও বড় ও প্রস্তুত মিশনের জন্য বাংলাদেশি সংগঠক ও সমর্থকেরা প্রয়োজনীয় মাঠ-সমন্বয় গড়ে তুলছেন।',
+    image: '/hero-image.jpg',
+  },
+  {
+    label: 'সামনে এগিয়ে চলা',
+    title: 'আরও প্রস্তুত মিশনের জন্য দ্রুত সহায়তা দরকার',
+    copy: 'পরবর্তী প্রচেষ্টা নির্ভর করছে বাস্তব তহবিলের ওপর: সরঞ্জাম, সহায়তা সামগ্রী, যোগাযোগ ব্যবস্থা এবং নিরাপদ যাত্রার লজিস্টিকস।',
+    image: '/madleens-vision-image.jpg',
+  },
+];
+
+const budgetTabs = [
+  {
+    id: 'vessel',
+    title: 'নৌযান ও সরঞ্জাম',
+    image: '/boat-equipment-image.jpg',
+    summary: 'নৌযান প্রস্তুতি, প্রযুক্তিগত আপগ্রেড, নেভিগেশন, অনবোর্ড নিরাপত্তা এবং যোগাযোগ ব্যবস্থা।',
+    items: ['নৌযান মেরামত ও পরিদর্শন', 'GPS ও যোগাযোগ ব্যবস্থা', 'ক্যামেরা ও ডকুমেন্টেশন টুল', 'নিরাপত্তা সরঞ্জাম'],
+  },
+  {
+    id: 'aid',
+    title: 'মানবিক সহায়তা',
+    image: '/medical-aid-image.jpg',
+    summary: 'গাজার মানুষের জন্য চিকিৎসা সামগ্রী, খাদ্য সহায়তা, পানি, স্যানিটেশন এবং মৌলিক প্রয়োজনীয় সামগ্রী।',
+    items: ['প্রাথমিক চিকিৎসা ও মেডিকেল সাপ্লাই', 'খাদ্য ও প্রয়োজনীয় সামগ্রী', 'পানি ও স্যানিটেশন সহায়তা', 'সহায়তা প্যাকেজিং ও হ্যান্ডলিং'],
+  },
+  {
+    id: 'coordination',
+    title: 'মিশন লজিস্টিকস',
+    image: '/organization-budget-image.jpg',
+    summary: 'বন্দর ফি, জ্বালানি, ক্রু প্রস্তুতি, স্বেচ্ছাসেবক সমন্বয়, আইনি সহায়তা এবং যাত্রার লজিস্টিকস।',
+    items: ['বন্দর ও জ্বালানি খরচ', 'ক্রু ও স্বেচ্ছাসেবক প্রশিক্ষণ', 'আন্তর্জাতিক সমন্বয়', 'মাঠ পর্যায়ের লজিস্টিকস'],
+  },
+];
+
+const galleryPreview = [
+  '/gallery-1.jpg',
+  '/gallery-4.jpg',
+  '/gallery-7.jpg',
+  '/gallery-10.jpg',
+];
+
+const renderMixedText = (text) =>
+  text.split(/([A-Za-z][A-Za-z0-9./-]*)/g).map((part, index) =>
+    /[A-Za-z]/.test(part) ? (
+      <span key={`${part}-${index}`} className="english-text">
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  );
+
+const Home = () => {
+  usePageTitle();
+
+  const [cursor, setCursor] = useState({ x: 50, y: 50 });
+  const [activeMission, setActiveMission] = useState(missionCards[0].id);
+  const [activeBudget, setActiveBudget] = useState(budgetTabs[0].id);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const selectedMission = useMemo(
+    () => missionCards.find((card) => card.id === activeMission) ?? missionCards[0],
+    [activeMission],
+  );
+
+  const selectedBudget = useMemo(
+    () => budgetTabs.find((tab) => tab.id === activeBudget) ?? budgetTabs[0],
+    [activeBudget],
+  );
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0);
     };
 
-    return (
-      <div className="min-h-screen bg-white">
-        <Navbar />
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-        {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 pt-20">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-blue-500/10"></div>
-          <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
-            <div className="fade-in-up">
-              <h1 className="english-text text-5xl md:text-7xl mt-5 font-bold text-gray-800 mb-4">
-                A Thousand <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-500">Madleens</span>
-              </h1>
-              <h2 className="english-text text-2xl md:text-3xl font-semibold text-gray-700 mb-2">
-                To Gaza
-              </h2>
-              <p className="bengali-text text-xl md:text-2xl text-gray-600 mb-8">
-                বাংলাদেশ ডেলিগেশন
-              </p>
-              
-              <div className="w-full md:h-80 rounded-2xl mb-8 overflow-hidden shadow-xl bg-gray-100">
-                <img src="/hero-image.jpg" alt="A Thousand Madleens to Gaza" className="w-full h-auto md:h-full object-contain md:object-cover" />
-              </div>
-
-              <h3 className="english-text text-3xl md:text-4xl font-bold text-gray-800 mb-6">
-                Join the Flotilla, Break the Siege
-              </h3>
-              
-              <p className="bengali-text text-lg md:text-xl text-gray-700 max-w-4xl mx-auto mb-8 leading-relaxed">
-                গাজার অবৈধ অবরোধ ভাঙতে এবং অসহায় মানুষের কাছে জীবনরক্ষাকারী মানবিক সহায়তা পৌঁছে দিতে সমুদ্রপথে ছুটে যাচ্ছে আমাদের বেসামরিক ফ্লোটিলা। 'বাংলাদেশ ডেলিগেশন'-এর এই সাহসী ও শান্তিপূর্ণ উদ্যোগে আপনার আর্থিক সহায়তা একান্ত প্রয়োজন। আজই অনুদান দিন এবং গাজার মানুষের বেঁচে থাকার এই লড়াইয়ে আমাদের সঙ্গী হোন।
-              </p>
-
-              <div className="flex justify-center items-center">
-                <a 
-                  href="/donate"
-                  className="english-text mb-10 float-animation bg-gradient-to-r from-blue-600 to-blue-500 text-white px-10 py-4 rounded-full font-bold text-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
-                >
-                  Donate Now
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-        {/* About Section */}
-        <section id="about" className="py-20 bg-gray-50 scroll-mt-20">
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="bengali-text text-4xl font-bold text-gray-800 mb-4">আমরা কারা</h2>
-              <h3 className="english-text text-2xl font-semibold text-gray-600">Who We Are</h3>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <div className="w-full h-80 rounded-2xl mb-6 overflow-hidden shadow-lg">
-                  <img src="/organization-image.jpg" alt="Freedom Flotilla Coalition" className="w-full h-full object-cover" />
-                </div>
-              </div>
-              
-              <div className="space-y-6">
-                <p className="bengali-text text-lg text-gray-700 leading-relaxed">
-                  <span className="english-text font-bold">Freedom Flotilla Coalition</span> এবং <span className="english-text font-bold">A Thousand Madleens to Gaza</span> হল আন্তর্জাতিক নাগরিক আন্দোলন, যেখানে বিশ্বের বিভিন্ন প্রান্ত থেকে মানুষ একত্রিত হয়েছে।
-                </p>
-                
-                <div className="bg-white rounded-xl p-6 shadow-md">
-                  <h4 className="bengali-text text-xl font-semibold text-gray-800 mb-4">এই সংগঠনগুলো একসাথে কাজ করছে:</h4>
-                  <ul className="bengali-text space-y-3">
-                    <li className="flex items-start">
-                      <span className="w-2 h-2 bg-blue-600 rounded-full mt-3 mr-3 flex-shrink-0"></span>
-                      <span>অর্থ সংগ্রহ করার জন্য</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
-                      <span>জাহাজ প্রস্তুত ও সজ্জিত করার জন্য</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="w-2 h-2 bg-blue-600 rounded-full mt-3 mr-3 flex-shrink-0"></span>
-                      <span>গাজার ওপর আরোপিত অবরোধ ভাঙতে সমুদ্রপথে মানবিক সহায়তা পৌঁছে দেওয়ার জন্য</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Mission Section */}
-        <section id="mission" className="py-20 bg-white scroll-mt-20">
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="english-text text-4xl font-bold text-gray-800 mb-4">Our Mission</h2>
-              <p className="bengali-text text-xl text-gray-600">আমাদের মিশন</p>
-            </div>
-
-            {/* The First Wave */}
-            <div className="mb-20">
-              <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-8 mb-12">
-                <h3 className="english-text text-3xl font-bold text-gray-800 mb-4 text-center">The First Wave</h3>
-                <div className="w-full h-64 rounded-xl mb-6 overflow-hidden">
-                  <img src="/first-wave-image.jpg" alt="The First Wave Flotilla" className="w-full h-full object-cover" />
-                </div>
-                
-                <div className="space-y-8">
-                  <div>
-                    <p className="bengali-text text-gray-700 mb-4 leading-relaxed">
-                      প্রতিবার যখন কোনো দেশের কোনোখানে আটকে পড়ে, আর আইনের শাসনে যায় না, তখন প্রয়োজন হয় সরাসরি পথে নামার। সেই অন্যায় ভাঙতে থেকেই ২০২৫ সালে পৃথিবীর নানা প্রান্ত থেকে ছুটে আসা অসংখ্য স্বেচ্ছাসেবকেরা নিয়ে গড়ে ওঠে এক ঐতিহাসিক ‘ফ্লোটিলা কোয়ালিশন’ (<span className="english-text">flotilla coalition</span>)।
-                    </p>
-                  </div>
-
-                  <div className="bg-white rounded-xl p-6 shadow-md">
-                    <h4 className="bengali-text text-lg font-semibold text-gray-800 mb-4">আমাদের এই শান্তির যাত্রাবাহী নৌবহরের ওপর নেমে আসে চরম আঘাত:</h4>
-                    <ul className="bengali-text space-y-4 text-gray-700">
-                      <li className="flex items-start">
-                        <span className="w-2 h-2 bg-blue-600 rounded-full mt-3 mr-3 flex-shrink-0"></span>
-                        <span>মাঝসমুদ্রে ইসরায়েলি সামরিক বাহিনী জোরপূর্বক আমাদের পথ আগলে দাঁড়ায়।</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="w-2 h-2 bg-blue-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
-                        <span>মানবতার টানে ছুটে আসা স্বেচ্ছাসেবকদের হাতে পরানো হয় বন্দিত্বের শৃঙ্খল।</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="w-2 h-2 bg-blue-600 rounded-full mt-3 mr-3 flex-shrink-0"></span>
-                        <span>তাদের তুলে ফেলা হয় ইসরায়েলের অন্ধকার, দুর্ভেদ্য এক উচ্চ-নিরাপত্তা কারাগারে।</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="bg-white rounded-xl p-6 shadow-md">
-                    <p className="bengali-text text-gray-700 leading-relaxed">
-                      কিন্তু তারা জানত না, শিকল দিয়ে কখনো মুক্তিকামী আত্মাকে বেঁধে রাখা যায় না! আমাদের এই আত্মত্যাগ বিশ্বজুড়ে এক অভূতপূর্ব সংহতির জন্ম দেয় এবং প্রতিবাদের নতুন দাবানল জ্বেলে দেয়। এই উদ্যোগ পৃথিবীর নানা প্রান্তের মানুষকে অনুপ্রাণিত করে মুক্ত নতুন আশার বীজ বুনে দেয়।
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Bangladesh Participation */}
-            <div className="mb-20">
-              <h3 className="bengali-text text-3xl font-bold text-gray-800 mb-8 text-center">বাংলাদেশের অংশগ্রহণ</h3>
-              
-              <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                  <div className="w-full h-80 rounded-2xl mb-6 overflow-hidden shadow-lg">
-                    <img src="/shahidul-alam-image.jpg" alt="Shahidul Alam" className="w-full h-full object-cover" />
-                  </div>
-                </div>
-                
-                <div className="space-y-6">
-                  <p className="bengali-text text-lg text-gray-700 leading-relaxed">
-                    এই <span className="english-text">flotilla</span>-তে বাংলাদেশের অংশগ্রহণও ছিল। বাংলাদেশের বিখ্যাত ফটোসাংবাদিক ও অ্যাক্টিভিস্ট <strong>শহিদুল আলম</strong> <span className="english-text">"Conscience"</span> নামের জাহাজে অংশগ্রহণ করেছিলেন।
-                  </p>
-                  
-                  <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6">
-                    <h4 className="bengali-text text-lg font-semibold text-gray-800 mb-3">এছাড়াও:</h4>
-                    <ul className="bengali-text space-y-2 text-gray-700">
-                      <li>• সহায়ক জাহাজগুলোতে</li>
-                      <li>• স্থলভিত্তিক সমন্বয় কার্যক্রমে</li>
-                    </ul>
-                    <p className="bengali-text text-gray-700 mt-4 leading-relaxed">
-                      বাংলাদেশি প্রবাসীদের অনেকেই তাদের সময়, সম্পদ এবং ব্যক্তিগত ঝুঁকি নিয়ে এই প্রচেষ্টায় অংশ নেন।
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Moving Forward */}
-            <div className="bg-gradient-to-br from-blue-600 to-blue-500 rounded-2xl p-8 text-white">
-              <h3 className="english-text text-3xl font-bold mb-6 text-center">Moving Forward</h3>
-              
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                  <div className="w-full h-64 rounded-xl mb-6 overflow-hidden">
-                    <img src="/ship-preparation-image.jpg" alt="Ship Preparation" className="w-full h-full object-cover" />
-                  </div>
-                </div>
-                
-	                <div className="space-y-6">
-	                  <p className="bengali-text text-lg leading-relaxed">
-	                    আমাদের সংগ্রাম থামেনি, বরং এবারের প্রস্তুতি আরও বিশাল! অবরুদ্ধ গাজার দিকে যাত্রা করার জন্য আমরা এবার আরও বড় পরিসরে একটি ফ্লোটিলা প্রস্তুত করছি। আর এবারের সবচেয়ে গর্বের বিষয় হলো- এই আন্তর্জাতিক নৌবহরে যুক্ত হতে যাচ্ছে বাংলাদেশের লাল-সবুজ পতাকাবাহী সম্পূর্ণ নিজস্ব একটি জাহাজ / বোট।
-	                  </p>
-	                  
-	                  <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
-	                    <h4 className="bengali-text text-lg font-semibold mb-3">এই মুহূর্তে বাস্তবায়নে আমাদের লক্ষ্য:</h4>
-	                    <ul className="bengali-text space-y-3">
-	                      <li>• নিজস্ব উদ্যোগে একটি উপযুক্ত জাহাজ / বোট সংগ্রহ করা।</li>
-	                      <li>• গাজার মানুষের জন্য প্রয়োজনীয় জীবনরক্ষাকারী সামগ্রী দিয়ে সেটিকে পূর্ণাঙ্গভাবে প্রস্তুত করা।</li>
-	                      <li>• ইউরোপের কোনো এক বন্দর থেকে নোঙর তুলে সরাসরি গাজার উদ্দেশ্যে উত্তাল সমুদ্র পাড়ি দেওয়া।</li>
-	                    </ul>
-	                  </div>
-                  
-                  <div className="bg-yellow-400/20 rounded-xl p-4">
-                    <p className="english-text font-semibold text-yellow-100">Launch Timeline: <span className="english-text">Spring 2026</span></p>
-                    <p className="english-text text-sm text-yellow-200"><span className="english-text">Mediterranean</span> Port Departure</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Why It Matters */}
-        <section className="py-20 bg-gray-50">
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="bengali-text text-4xl font-bold text-gray-800 mb-4">কেন বাংলাদেশ ডেলিগেশন গুরুত্বপূর্ণ</h2>
-              <h3 className="english-text text-2xl font-semibold text-gray-600">Why Bangladesh Delegation Matters</h3>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
-              <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h4 className="english-text text-xl font-semibold text-gray-800 mb-3">Global Movement</h4>
-                <p className="bengali-text text-gray-600">আন্তর্জাতিক আন্দোলনের অংশ</p>
-              </div>
-              
-              <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                  </svg>
-                </div>
-                <h4 className="english-text text-xl font-semibold text-gray-800 mb-3">Peaceful Mission</h4>
-                <p className="bengali-text text-gray-600">অহিংস উদ্দেশ্য</p>
-              </div>
-              
-              <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
-                <h4 className="english-text text-xl font-semibold text-gray-800 mb-3">Solidarity</h4>
-                <p className="bengali-text text-gray-600">বিশ্বব্যাপী সংহতি</p>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <h4 className="bengali-text text-2xl font-semibold text-gray-800 mb-6">আমাদের মূখ্য লক্ষ্য:</h4>
-              <div>
-                <ul className="bengali-text space-y-4 text-gray-700">
-                  <li className="flex items-start">
-                    <span className="w-2 h-2 bg-blue-600 rounded-full mt-3 mr-3 flex-shrink-0"></span>
-                    <span>ফিলিস্তিনের পবিত্র ভূমিতে চলা অবৈধ দখলদারিত্ব ও আগ্রাসনের বিরুদ্ধে আমাদের প্রতিবাদী কণ্ঠস্বর আরও শানিত করা।</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-3 mr-3 flex-shrink-0"></span>
-                    <span>নীরব থাকা আন্তর্জাতিক সম্প্রদায় ও বিশ্বনেতৃবৃন্দের ওপর এমন প্রবল চাপ সৃষ্টি করা, যেন তারা অবিলম্বে এই অমানবিকতা বন্ধে বাধ্য হয়।</span>
-                  </li>
-                </ul>
-              </div>
-              
-              <div className="mt-8 bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6 text-center">
-                <p className="bengali-text text-xl font-bold text-gray-800">
-                  আসুন, গোটা বিশ্বকে দেখিয়ে দিই- চরম এই অবিচারের দিনে বাংলাদেশের মানুষ চুপ নেই; আমরা দাঁড়িয়ে ন্যায়ের পক্ষে, ইতিহাসের একেবারে সঠিক অধ্যায়ে!
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-        {/* Budget Section */}
-        <section id="budget" className="py-20 bg-white scroll-mt-20">
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="bengali-text text-4xl font-bold text-gray-800 mb-4">সংগ্রহ করা অর্থ কোথায় ব্যয় হবে</h2>
-              <h3 className="english-text text-2xl font-semibold text-gray-600">How Your Donation Will Be Used</h3>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
-              {/* Boat & Equipment */}
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 shadow-lg">
-                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-                  </svg>
-                </div>
-                <h3 className="english-text text-2xl font-bold text-blue-800 mb-4 text-center">Boat & Equipment</h3>
-                
-                <div className="w-full h-48 rounded-xl mb-4 overflow-hidden shadow-md">
-                  <img src="/boat-equipment-image.jpg" alt="Boat Equipment" className="w-full h-full object-cover" />
-                </div>
-                
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="bengali-text font-semibold text-gray-800 mb-2">জাহাজ প্রস্তুতি:</h4>
-                    <ul className="bengali-text text-sm text-gray-700 space-y-1">
-                      <li>• জাহাজ মেরামত</li>
-                      <li>• জাহাজ আপগ্রেড</li>
-                      <li>• নিরাপত্তা পরীক্ষা</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h4 className="bengali-text font-semibold text-gray-800 mb-2">প্রয়োজনীয় সরঞ্জাম:</h4>
-                    <ul className="bengali-text text-sm text-gray-700 space-y-1">
-                      <li>• <span className="english-text">GPS</span></li>
-                      <li>• যোগাযোগ ব্যবস্থা</li>
-                      <li>• ক্যামেরা</li>
-                      <li>• নিরাপত্তা সরঞ্জাম</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              {/* Medical & Humanitarian Aid */}
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 shadow-lg">
-                <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
-                </div>
-                <h3 className="english-text text-2xl font-bold text-blue-800 mb-4 text-center">Humanitarian Aid</h3>
-                
-                <div className="w-full h-48 rounded-xl mb-4 overflow-hidden shadow-md">
-                  <img src="/medical-aid-image.jpg" alt="Medical Aid" className="w-full h-full object-cover" />
-                </div>
-                
-                <ul className="bengali-text text-sm text-gray-700 space-y-2">
-                  <li>• চিকিৎসা ও প্রাথমিক চিকিৎসা সরঞ্জাম</li>
-                  <li>• খাদ্য সহায়তা</li>
-                  <li>• মৌলিক জীবনযাত্রার প্রয়োজনীয় সামগ্রী</li>
-                  <li>• পানি ও স্যানিটেশন ব্যবস্থা</li>
-                </ul>
-              </div>
-
-              {/* Organizing the Flotilla */}
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 shadow-lg">
-                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                  </svg>
-                </div>
-                <h3 className="english-text text-2xl font-bold text-blue-800 mb-4 text-center">Organizing the Flotilla</h3>
-                
-                <div className="w-full h-48 rounded-xl mb-4 overflow-hidden shadow-md">
-                  <img src="/organization-budget-image.jpg" alt="Organization" className="w-full h-full object-cover" />
-                </div>
-                
-                <ul className="bengali-text text-sm text-gray-700 space-y-2">
-                  <li>• বন্দরের ফি</li>
-                  <li>• জ্বালানি ব্যয়</li>
-                  <li>• যাত্রার লজিস্টিক প্রস্তুতি</li>
-                  <li>• ক্রু এবং স্বেচ্ছাসেবকদের প্রশিক্ষণ</li>
-                  <li>• সমন্বয় কার্যক্রম</li>
-                </ul>
-                
-                <div className="mt-4 bg-white rounded-lg p-3">
-                  <p className="bengali-text text-xs text-gray-600 italic">
-                    এই আন্দোলনটি মূলত স্বেচ্ছাসেবকদের দ্বারা পরিচালিত
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Overall Goal */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-2xl p-12 text-white text-center shadow-2xl">
-              <h2 className="bengali-text text-3xl font-bold mb-4">সামগ্রিক লক্ষ্য</h2>
-              <div className="mb-6">
-                <p className="bengali-text text-4xl font-bold mb-2">গাজার অবরোধ ভাঙা</p>
-              </div>
-              
-              <div className="w-full rounded-xl mb-6 overflow-hidden backdrop-blur-sm">
-                <img src="/madleens-vision-image.jpg" alt="Madleens Vision" className="w-full h-auto object-cover" />
-              </div>
-              
-              <p className="bengali-text text-xl leading-relaxed max-w-4xl mx-auto">
-                বিশ্বব্যাপী জাহাজের সমর্থন সংগ্রহ করে গাজার অবরোধ ভাঙার একটি বৃহৎ আন্তর্জাতিক প্রচেষ্টা
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Urgency Section */}
-        <section className="py-20 bg-blue-50">
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="bengali-text text-4xl font-bold text-blue-800 mb-4">কেন এখনই অনুদান জরুরি</h2>
-              <h3 className="english-text text-2xl font-semibold text-blue-600">Why Donate Now</h3>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-white rounded-2xl p-8 shadow-lg border-l-4 border-blue-500">
-                <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mb-4">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h4 className="english-text text-xl font-semibold text-gray-800 mb-3">Preparation Started</h4>
-                <p className="bengali-text text-gray-700"><span className="english-text">Spring 2026</span>-এর <span className="english-text">flotilla</span> প্রস্তুতি ইতিমধ্যেই শুরু হয়েছে</p>
-              </div>
-              
-              <div className="bg-white rounded-2xl p-8 shadow-lg border-l-4 border-blue-600">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-4">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                  </svg>
-                </div>
-                <h4 className="english-text text-xl font-semibold text-gray-800 mb-3">Bigger Mission</h4>
-                <p className="bengali-text text-gray-700">এইবারের <span className="english-text">flotilla</span> গত বছরের তুলনায় আরও বড় হবে</p>
-              </div>
-              
-              <div className="bg-white rounded-2xl p-8 shadow-lg border-l-4 border-blue-500">
-                <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mb-4">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                  </svg>
-                </div>
-                <h4 className="english-text text-xl font-semibold text-gray-800 mb-3">Urgent Need</h4>
-                <p className="bengali-text text-gray-700">গাজার ওপর অবরোধ যত দীর্ঘস্থায়ী হয়, মানুষের পরিস্থিতি তত খারাপ হয়</p>
-              </div>
-            </div>
-
-            {/* Call to Action */}
-            <div className="mt-12 text-center">
-              <a 
-                href="/donate"
-                className="english-text inline-block bg-gradient-to-r from-blue-600 to-blue-500 text-white px-12 py-4 rounded-full font-bold text-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
-              >
-                Donate Now
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* Footer */}
-        <footer className="bg-gray-900 text-white py-16">
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
-              {/* Logo & Description */}
-              <div className="md:col-span-2">
-                <div className="flex items-center space-x-3 mb-6">
-                  <div className="w-12 h-12 rounded-full overflow-hidden">
-                    <img src="/logo.jpg" alt="TMTG Logo" className="w-full h-full object-cover" />
-                  </div>
-                  <div>
-                    <h3 className="english-text text-xl font-bold">A Thousand Madleens To Gaza</h3>
-                    <p className="bengali-text text-gray-400">বাংলাদেশ ডেলিগেশন</p>
-                  </div>
-                </div>
-                <p className="english-text text-gray-300 leading-relaxed mb-4">
-                  Join the peaceful civilian flotilla initiative to break the illegal blockade of Gaza and deliver life-saving humanitarian aid by sea.
-                </p>
-                <p className="bengali-text text-gray-300 leading-relaxed">
-                  গাজার অবৈধ অবরোধ ভেঙে সমুদ্রপথে জীবনরক্ষাকারী মানবিক সহায়তা পৌঁছে দেওয়ার শান্তিপূর্ণ বেসামরিক <span className="english-text">flotilla</span> উদ্যোগে যোগ দিন।
-                </p>
-                <SocialLinks
-                  className="mt-6"
-                  linkClassName="text-gray-300 hover:text-white focus:ring-offset-gray-900"
-                  iconClassName="h-8 w-8"
-                />
-              </div>
-
-              {/* Quick Links */}
-              <div>
-                <h4 className="english-text text-lg font-semibold mb-4">Quick Links</h4>
-                <ul className="space-y-2">
-                  <li><button onClick={() => scrollToSection('about')} className="english-text text-gray-300 hover:text-white transition-colors">About Us</button></li>
-                  <li><button onClick={() => scrollToSection('mission')} className="english-text text-gray-300 hover:text-white transition-colors">Our Mission</button></li>
-                  <li><button onClick={() => scrollToSection('budget')} className="english-text text-gray-300 hover:text-white transition-colors">Fund Usage</button></li>
-                  <li><a href="/gallery" className="english-text text-gray-300 hover:text-white transition-colors">Gallery</a></li>
-                  <li><a href="/donate" className="english-text text-gray-300 hover:text-white transition-colors">Donate</a></li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="border-t border-gray-700 pt-8 text-center">
-              <p className="english-text text-gray-400 mb-2">
-                © 2026 Bangladesh Delegation - A Thousand Madleens To Gaza
-              </p>
-              <p className="english-text text-gray-500 text-sm mb-2">
-                Developed by{' '}
-                <a
-                  href="https://www.linkedin.com/in/rakinalshahriar/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  Rakin al Shahriar
-                </a>{' '}
-                from{' '}
-                <a
-                  href="https://framecipher.info"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  FrameCipher
-                </a>
-              </p>
-              <p className="bengali-text text-gray-500 text-sm">
-                <span className="english-text">Freedom Flotilla Coalition</span> | <span className="english-text">Thousand Madleens to Gaza</span> | <span className="english-text">Bangladesh Delegation Crowdfund</span>
-              </p>
-            </div>
-          </div>
-        </footer>
-      </div>
-    );
+  const handleHeroPointer = (event) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    setCursor({
+      x: ((event.clientX - bounds.left) / bounds.width) * 100,
+      y: ((event.clientY - bounds.top) / bounds.height) * 100,
+    });
   };
 
-  export default Home;
+  const scrollToSection = (sectionId) => {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <div className="min-h-screen overflow-x-hidden bg-[#f8f4ee] text-stone-950">
+      <div
+        className="fixed left-0 top-0 z-[60] h-1 bg-emerald-500 transition-[width] duration-150"
+        style={{ width: `${scrollProgress}%` }}
+      />
+
+      <Navbar />
+
+      <main>
+        <section
+          className="premium-hero relative min-h-[100svh] overflow-hidden pt-20 text-white sm:pt-24"
+          onPointerMove={handleHeroPointer}
+          style={{
+            '--spot-x': `${cursor.x}%`,
+            '--spot-y': `${cursor.y}%`,
+            '--cursor-x': (cursor.x - 50) / 50,
+            '--cursor-y': (cursor.y - 50) / 50,
+          }}
+        >
+          <div className="hero-animated-bg absolute inset-0" aria-hidden="true">
+            <div className="hero-light-field" />
+            <div className="hero-sea-lines" />
+            <div className="hero-flag-stage">
+              <div className="hero-flag-pole" />
+              <div className="hero-flag-cloth">
+                <span className="hero-flag-black" />
+                <span className="hero-flag-white" />
+                <span className="hero-flag-green" />
+                <span className="hero-flag-red" />
+                <span className="hero-flag-shine" />
+              </div>
+              <div className="hero-flag-shadow" />
+            </div>
+          </div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_var(--spot-x)_var(--spot-y),rgba(16,185,129,0.1),transparent_24rem),linear-gradient(105deg,rgba(4,8,7,0.94),rgba(4,8,7,0.78)_45%,rgba(4,8,7,0.36))]" />
+
+          <div className="relative z-10 mx-auto flex min-h-[calc(100svh-5rem)] w-full max-w-7xl flex-col justify-center px-5 pb-10 sm:min-h-[calc(100vh-6rem)] sm:px-6 sm:pb-16 lg:px-8">
+            <div className="max-w-4xl">
+              <div className="bengali-text mb-5 inline-flex items-center gap-3 border border-white/20 bg-white/10 px-3 py-2 text-base font-semibold text-emerald-100 backdrop-blur-md sm:mb-6 sm:px-4 sm:text-lg">
+                বাংলাদেশ ডেলিগেশন
+              </div>
+              <h1 className="english-text max-w-5xl text-[2.85rem] font-black leading-[0.92] text-white sm:text-6xl lg:text-8xl">
+                A Thousand Madleens To Gaza
+              </h1>
+              <p className="bengali-text mt-6 max-w-2xl text-lg leading-8 text-stone-100 sm:mt-7 sm:text-2xl sm:leading-9">
+                গাজার অবরোধ ভাঙতে এবং জরুরি মানবিক সহায়তা সমুদ্রপথে পৌঁছে দিতে শান্তিপূর্ণ বেসামরিক ফ্লোটিলায় যোগ দিন।
+              </p>
+
+              <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row">
+                <a
+                  href="/donate"
+                  className="bengali-text group inline-flex items-center justify-center gap-3 bg-emerald-400 px-6 py-4 text-lg font-black text-slate-950 shadow-[0_20px_70px_rgba(16,185,129,0.36)] transition hover:-translate-y-1 hover:bg-emerald-300"
+                >
+                  অনুদান দিন
+                </a>
+                <button
+                  type="button"
+                  onClick={() => scrollToSection('mission')}
+                  className="bengali-text inline-flex items-center justify-center gap-3 border border-white/30 bg-white/10 px-6 py-4 text-lg font-bold text-white backdrop-blur-md transition hover:-translate-y-1 hover:bg-white/20"
+                >
+                  মিশন দেখুন
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <section id="mission" className="scroll-mt-24 px-4 py-24 sm:px-6 lg:px-8">
+          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+            <div>
+              <p className="section-kicker">মিশন কন্ট্রোল</p>
+              <h2 className="bengali-text mt-4 text-4xl font-black leading-tight text-stone-950 sm:text-6xl">
+                স্থির প্রচারণা নয়, এটি একটি জীবন্ত মিশন ব্রিফ।
+              </h2>
+            </div>
+            <p className="bengali-text max-w-2xl text-xl leading-9 text-stone-700 lg:justify-self-end">
+              গাজার অবরোধ ভাঙতে এবং অসহায় মানুষের কাছে জীবনরক্ষাকারী মানবিক সহায়তা পৌঁছে দিতে এই শান্তিপূর্ণ বেসামরিক উদ্যোগে আপনার সমর্থন জরুরি।
+            </p>
+          </div>
+
+          <div className="mx-auto mt-12 grid max-w-7xl gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+            <div className="space-y-3">
+              {missionCards.map((card, index) => (
+                <button
+                  key={card.id}
+                  type="button"
+                  onClick={() => setActiveMission(card.id)}
+                  className={`w-full border p-6 text-left transition duration-300 ${
+                    activeMission === card.id
+                      ? 'border-emerald-500 bg-stone-950 text-white shadow-2xl shadow-stone-950/20'
+                      : 'border-stone-200 bg-white/70 text-stone-950 hover:-translate-y-1 hover:border-stone-400'
+                  }`}
+                >
+                  <span className="bengali-text text-sm font-black tracking-[0.08em] text-emerald-500">
+                    <span className="english-text">0{index + 1}</span> / {card.kicker}
+                  </span>
+                  <h3 className="bengali-text mt-3 text-2xl font-black">{card.title}</h3>
+                  <p className={`bengali-text mt-3 text-lg leading-8 ${activeMission === card.id ? 'text-stone-200' : 'text-stone-600'}`}>
+                    {card.copy}
+                  </p>
+                </button>
+              ))}
+            </div>
+
+            <div className="group sticky top-28 h-[34rem] overflow-hidden bg-stone-900 shadow-2xl shadow-stone-950/20">
+              <img
+                key={selectedMission.image}
+                src={selectedMission.image}
+                alt={selectedMission.title}
+                className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/15 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                <p className="bengali-text text-sm font-black tracking-[0.12em] text-emerald-300">{selectedMission.kicker}</p>
+                <p className="bengali-text mt-3 max-w-xl text-2xl font-black">{selectedMission.title}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-stone-950 px-4 py-24 text-white sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="section-kicker text-emerald-300">প্রচারণার পথচলা</p>
+                <h2 className="bengali-text mt-4 max-w-3xl text-4xl font-black leading-tight sm:text-6xl">যে অগ্রগতি চোখে দেখা যায়।</h2>
+              </div>
+              <a
+                href="/gallery"
+                className="bengali-text inline-flex w-fit items-center gap-3 border border-white/20 px-5 py-3 text-lg font-bold text-white transition hover:-translate-y-1 hover:border-emerald-300 hover:text-emerald-200"
+              >
+                গ্যালারি দেখুন
+              </a>
+            </div>
+
+            <div className="mt-12 grid gap-5 lg:grid-cols-3">
+              {timeline.map((item, index) => (
+                <article key={item.label} className="group relative min-h-[30rem] overflow-hidden border border-white/10 bg-white/5">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="absolute inset-0 h-full w-full object-cover opacity-70 transition duration-700 group-hover:scale-105 group-hover:opacity-90"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/50 to-transparent" />
+                  <div className="relative flex h-full min-h-[30rem] flex-col justify-end p-7">
+                    <p className="english-text mb-auto w-fit bg-emerald-400 px-3 py-2 text-xs font-black uppercase tracking-[0.18em] text-stone-950">
+                      0{index + 1}
+                    </p>
+                    <p className="bengali-text text-sm font-black tracking-[0.12em] text-emerald-300">{item.label}</p>
+                    <h3 className="bengali-text mt-3 text-2xl font-black">{item.title}</h3>
+                    <p className="bengali-text mt-4 text-lg leading-8 text-stone-200">{item.copy}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="budget" className="scroll-mt-24 px-4 py-24 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+            <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+              <div>
+                <p className="section-kicker">অনুদান কোথায় যাবে</p>
+                <h2 className="bengali-text mt-4 text-4xl font-black leading-tight sm:text-6xl">প্রতিটি টাকার নির্দিষ্ট কাজ আছে।</h2>
+                <p className="bengali-text mt-6 text-xl leading-9 text-stone-700">
+                  অনুদান সরাসরি মিশনের বাস্তব প্রয়োজনীয় কাজে ব্যবহৃত হবে। কোন খাতে কী কাজ হবে, তা দেখতে একটি অগ্রাধিকার নির্বাচন করুন।
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  {budgetTabs.map((tab) => (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setActiveBudget(tab.id)}
+                      className={`bengali-text px-4 py-3 text-lg font-black transition ${
+                        activeBudget === tab.id
+                          ? 'bg-stone-950 text-white'
+                          : 'border border-stone-300 bg-white text-stone-700 hover:border-stone-950'
+                      }`}
+                    >
+                      {tab.title}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid gap-0 overflow-hidden bg-white shadow-2xl shadow-stone-950/10 lg:grid-cols-[0.95fr_1.05fr]">
+                <img
+                  key={selectedBudget.image}
+                  src={selectedBudget.image}
+                  alt={selectedBudget.title}
+                  className="h-80 w-full object-cover lg:h-full"
+                />
+                <div className="p-8 sm:p-10">
+                  <p className="section-kicker text-emerald-600">নির্বাচিত অগ্রাধিকার</p>
+                  <h3 className="bengali-text mt-4 text-3xl font-black text-stone-950">{selectedBudget.title}</h3>
+                  <p className="bengali-text mt-4 text-lg leading-8 text-stone-700">{selectedBudget.summary}</p>
+                  <ul className="mt-8 space-y-4">
+                    {selectedBudget.items.map((item) => (
+                      <li key={item} className="flex items-center gap-3 text-stone-800">
+                        <span className="h-2.5 w-2.5 shrink-0 bg-emerald-500" />
+                        <span className="bengali-text text-lg font-semibold">{renderMixedText(item)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href="/donate"
+                    className="bengali-text mt-10 inline-flex items-center gap-3 bg-emerald-500 px-5 py-3 text-lg font-black text-stone-950 transition hover:-translate-y-1 hover:bg-emerald-400"
+                  >
+                    এই কাজে অনুদান দিন
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="relative overflow-hidden bg-[#d9eee6] px-4 py-24 sm:px-6 lg:px-8">
+          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div>
+              <p className="section-kicker">ভিজ্যুয়াল রেকর্ড</p>
+              <h2 className="bengali-text mt-4 text-4xl font-black leading-tight text-stone-950 sm:text-6xl">ছবি যেন মানুষকে গল্পের ভেতরে টেনে আনে।</h2>
+              <p className="bengali-text mt-6 text-xl leading-9 text-stone-700">
+                এই ছবিগুলো আমাদের প্রস্তুতি, সংহতি, স্বেচ্ছাসেবী কাজ এবং মানবিক মিশনের পথচলার সাক্ষ্য বহন করে।
+              </p>
+              <div className="mt-8 flex gap-3">
+                <a
+                  href="/gallery"
+                  className="bengali-text inline-flex items-center gap-3 bg-stone-950 px-5 py-3 text-lg font-black text-white transition hover:-translate-y-1"
+                >
+                  গ্যালারি খুলুন
+                </a>
+                <SocialLinks className="pl-2" iconClassName="h-7 w-7" />
+              </div>
+            </div>
+
+            <div className="gallery-stack grid grid-cols-2 gap-4">
+              {galleryPreview.map((src, index) => (
+                <a
+                  href="/gallery"
+                  key={src}
+                  className={`group block overflow-hidden bg-stone-900 shadow-xl shadow-stone-950/10 ${
+                    index % 2 === 0 ? 'translate-y-8' : ''
+                  }`}
+                >
+                  <img
+                    src={src}
+                    alt={`Campaign gallery preview ${index + 1}`}
+                    className="aspect-[4/5] h-full w-full object-cover transition duration-700 group-hover:scale-110 group-hover:opacity-80"
+                  />
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="relative isolate overflow-hidden bg-stone-950 px-4 py-24 text-white sm:px-6 lg:px-8">
+          <img src="/madleens-vision-image.jpg" alt="" className="absolute inset-0 -z-10 h-full w-full object-cover opacity-35" />
+          <div className="absolute inset-0 -z-10 bg-stone-950/70" />
+          <div className="mx-auto max-w-5xl text-center">
+            <p className="section-kicker text-emerald-300">এখনই এগিয়ে আসুন</p>
+            <h2 className="bengali-text mt-5 text-4xl font-black leading-tight sm:text-6xl">
+              সংহতিকে বাস্তব সমুদ্রযাত্রায় রূপ দিতে সাহায্য করুন।
+            </h2>
+            <p className="bengali-text mx-auto mt-6 max-w-2xl text-xl leading-9 text-stone-200">
+              আপনার অনুদান নৌযান প্রস্তুতি, সহায়তা সামগ্রী সংগ্রহ, লজিস্টিকস এবং আন্তর্জাতিক সমন্বয়ের মাধ্যমে প্রচারণাকে প্রস্তুতির পর্যায়ে নিয়ে যায়।
+            </p>
+            <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+              <a
+                href="/donate"
+                className="bengali-text inline-flex items-center justify-center gap-3 bg-emerald-400 px-7 py-4 text-lg font-black text-stone-950 transition hover:-translate-y-1 hover:bg-emerald-300"
+              >
+                অনুদান দিন
+              </a>
+              <button
+                type="button"
+                onClick={() => scrollToSection('budget')}
+                className="bengali-text inline-flex items-center justify-center border border-white/25 px-7 py-4 text-lg font-bold text-white transition hover:-translate-y-1 hover:bg-white/10"
+              >
+                তহবিল দেখুন
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="bg-[#0d1715] px-4 py-12 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <div>
+            <div className="flex items-center gap-3">
+              <img src="/logo.jpg" alt="TMTG Logo" className="h-12 w-12 rounded-full object-cover" />
+              <div>
+                <h3 className="english-text text-lg font-black">A Thousand Madleens To Gaza</h3>
+                <p className="bengali-text text-sm text-stone-400">বাংলাদেশ ডেলিগেশন</p>
+              </div>
+            </div>
+            <p className="bengali-text mt-5 max-w-xl text-lg leading-8 text-stone-300">
+              গাজার মানুষের জন্য মানবিক সহায়তায় নিবেদিত একটি শান্তিপূর্ণ বেসামরিক ফ্লোটিলা উদ্যোগ।
+            </p>
+          </div>
+          <div className="flex flex-col gap-4 md:items-end">
+            <SocialLinks linkClassName="text-stone-300 hover:text-emerald-300 focus:ring-offset-stone-950" />
+            <p className="english-text text-sm text-stone-500">
+              Copyright 2026 Bangladesh Delegation. Developed by{' '}
+              <a className="text-stone-300 hover:text-white" href="https://www.linkedin.com/in/rakinalshahriar/" target="_blank" rel="noopener noreferrer">
+                Rakin al Shahriar
+              </a>
+              .
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Home;
