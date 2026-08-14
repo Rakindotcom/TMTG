@@ -436,8 +436,8 @@ const Home = () => {
             <SocialLinks linkClassName="text-stone-300 hover:text-emerald-300 focus:ring-offset-stone-950" />
             <p className="english-text text-sm text-stone-500">
               Copyright 2026 Bangladesh Delegation. Developed by{' '}
-              <a className="text-stone-300 hover:text-white" href="https://www.linkedin.com/in/rakinalshahriar/" target="_blank" rel="noopener noreferrer">
-                Rakin al Shahriar
+              <a className="text-stone-300 hover:text-white" href="https://framecipher.info" target="_blank" rel="noopener noreferrer">
+                FrameCipher
               </a>
               .
             </p>
